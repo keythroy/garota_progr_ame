@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:insert="Tema/head"></head>
+
+<body class="sidebar-mini layout-fixed control-sidebar-slide-open">
+    <div class="wrapper">
+        <!-- <div layout:insert="Tema/header"></div> -->
+        <aside class="main-sidebar elevation-1 sidebar-light-olive">
+            <div layout:insert="Tema/sidemenu"></div>
+        </aside>
+        <div class="content-wrapper">
+            <div layout:fragment="corpo"></div>
+        </div>
+        <footer style="text-align: center" class="main-footer">
+            <strong>&copy; 2020 
+			</strong> GarotaProgr(ame)
+        </footer>
+    </div>
+    <div layout:insert="Tema/scripts"></div>
+</body>
+
+</html>

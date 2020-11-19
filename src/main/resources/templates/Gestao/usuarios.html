@@ -1,0 +1,87 @@
+<div layout:decorate="~{Tema/index}">
+    <div class="w3-container" id="homeindex" layout:fragment="corpo">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <!-- <h1 class="m-0 text-dark">Gestão</h1> -->
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item">Gestão</li>
+                            <li class="breadcrumb-item active">Usuários</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section id="vmPerfil" class="content d-flex justify-content-center">
+            <div class="col-md-10">
+                <div class="container-fluid">
+                    <v-card>
+                        <v-card-title>
+                            <h2>Usuários</h2>
+                            <v-spacer></v-spacer>
+                            <v-text-field v-model="pesquisa" append-icon="mdi-magnify" label="Pesquisa" single-line hide-details></v-text-field>
+                            <v-spacer></v-spacer>
+                            <modal-cadastro-usuario></modal-cadastro-usuario>
+                        </v-card-title>
+                        <v-data-table :headers="colunas" :items="linhas" :items-per-page="5" class="elevation-1" :search="pesquisa">
+                            <template v-slot:item.status="{ item }">
+                                <span class="badge ml-2" :class="item.blStatus==1?'badge-success':'badge-light'">{{item.blStatus==1?'Ativo':'Inativo'}}</span>
+                            </template>
+                            <template v-slot:item.acoes="{ item }">
+                                <v-icon small class="mr-2" @click="editar(item.id)">
+                                    mdi-pencil
+                                </v-icon>
+                                <v-icon small @click="deletar(item.id)">
+                                    mdi-delete
+                                </v-icon>
+                            </template>
+                        </v-data-table>
+                    </v-card>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<div layout:insert="Gestao/components/ModalCadastroUsuario"></div>
+<script>
+    var vmPerfil = new Vue({
+        el: "#vmPerfil",
+        vuetify: new Vuetify(),
+        data() {
+            return {
+                colunas: [{
+                    text: "Nome",
+                    value: "nomeExibicao",
+                }, {
+                    text: "Matrícula",
+                    value: "matricula"
+                }, {
+                    text: "Perfil",
+                    value: "perfil.perfil"
+                }, {
+                    text: "Status",
+                    value: "status"
+                }],
+                linhas: [],
+                pesquisa: '',
+            }
+        },
+        created() {
+            this.getUsuarios();
+        },
+        methods: {
+            getUsuarios() {
+                axios.get("/usuario/get").then((resp) => {
+                    this.linhas = resp.data;
+                }).catch((error) => {
+                    console.log(error)
+                })
+            },
+            editar() {},
+            deletar() {},
+        }
+    })
+</script>

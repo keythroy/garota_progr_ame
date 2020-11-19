@@ -1,0 +1,98 @@
+<div layout:decorate="~{Tema/index}">
+    <div class="w3-container" id="homeindex" layout:fragment="corpo">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <!-- <h1 class="m-0 text-dark">Gestão</h1> -->
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item">Gestão</li>
+                            <li class="breadcrumb-item active">Perfis</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section id="vmPerfil" class="content">
+            <div class="col-md-10">
+                <div class="container-fluid">
+                    <v-card>
+                        <v-card-title>
+                            <h2>Perfis</h2>
+                            <v-spacer></v-spacer>
+                            <v-text-field v-model="pesquisa" append-icon="mdi-magnify" label="Pesquisa" single-line hide-details></v-text-field>
+                            <v-spacer></v-spacer>
+                            <modal-cadastro-perfil></modal-cadastro-perfil>
+                        </v-card-title>
+                        <v-data-table :headers="colunas" :items="linhas" :items-per-page="5" class="elevation-1" :search="pesquisa">
+
+                            <template v-slot:[`item.status`]="{ item }">
+                                <span v-if="item.status == 1" class="badge badge-primary ml-2">Ativo</span>
+                                <span v-if="item.status == 0" class="badge badge-secondary ml-2">Inativo</span>
+                            </template>
+                            <template v-slot:[`item.telas`]="{ item }">
+                                <span v-for="t in item.telas" class="badge badge-info ml-2">{{t.tela}}</span>
+                            </template>
+                            <template v-slot:[`item.tipo`]="{ item }">
+                                <span class="badge badge-light ml-2">{{item.tipoPerfil.tipoPerfil}}</span>
+                            </template>
+                            <template v-slot:item.acoes="{ item }">
+                                <v-icon small class="mr-2" @click="editar(item.id)">
+                                    mdi-pencil
+                                </v-icon>
+                                <v-icon small @click="deletar(item.id)">
+                                    mdi-delete
+                                </v-icon>
+                            </template>
+                        </v-data-table>
+                    </v-card>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<div layout:insert="Gestao/components/ModalCadastroPerfil"></div>
+<script>
+    var vmPerfil = new Vue({
+        el: "#vmPerfil",
+        vuetify: new Vuetify(),
+        data() {
+            return {
+                colunas: [{
+                    text: "Nome",
+                    value: "perfil",
+                }, {
+                    text: "Status",
+                    value: "status"
+                }, {
+                    text: "Funcionalidades",
+                    value: "telas"
+                }, {
+                    text: "Tipo",
+                    value: "tipo"
+                }, {
+                    text: "Ações",
+                    value: "acoes"
+                }],
+                linhas: [],
+                pesquisa: '',
+            }
+        },
+        created() {
+            this.getPerfis();
+        },
+        methods: {
+            getPerfis() {
+                axios.get("/perfil/get").then((resp) => {
+                    this.linhas = resp.data;
+                }).catch((error) => {
+                    console.log(error)
+                })
+            },
+            editar() {},
+            deletar() {},
+        }
+    })
+</script>

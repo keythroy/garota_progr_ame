@@ -1,0 +1,71 @@
+
+<div class="card card-default">
+	<div class="card-header">
+		<h3 class="card-title">OS Vinculadas</h3>
+
+		<div class="card-tools">
+			<button type="button" class="btn btn-tool"
+				data-card-widget="collapse">
+				<i class="fas fa-minus"></i>
+			</button>
+			<button type="button" class="btn btn-tool" data-card-widget="remove">
+				<i class="fas fa-remove"></i>
+			</button>
+		</div>
+	</div>
+	<div class="card-body" style="display: block;">
+		<table id="example2" class="table table-hover">
+			<thead>
+				<tr>
+					<th>Categorização</th>
+					<th>Protocolo</th>
+					<th>Sigla</th>
+					<th>Vencimento Anatel</th>
+					<th>Categoria</th>
+					<th>Descrição do serviço</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>183</td>
+					<td>John Doe</td>
+					<td>17:00</td>
+					<td>17:05</td>
+					<td><span class="tag tag-success">Em atendimento</span></td>
+					<td>Bacon ipsum dolor sit amet salami venison chicken flank
+						fatback doner.</td>
+				</tr>
+				<tr class="bg-success">
+					<td>183</td>
+					<td>John Doe</td>
+					<td>17:00</td>
+					<td>17:05</td>
+					<td><span class="tag tag-success">Aguardando retorno</span></td>
+					<td>Bacon ipsum dolor sit amet salami venison chicken flank
+						fatback doner.</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+	<div class="card-footer"
+		style="display: block; width: 100%; text-align: center">
+		<button class="btn btn-danger float-right">
+			Buscar proxima OS <i class="fas fa-forward"></i>
+		</button>
+	</div>
+</div>
+
+<script>
+  $(function () {
+
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>

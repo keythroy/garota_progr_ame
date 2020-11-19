@@ -1,0 +1,125 @@
+<script type="text/x-template" id="modal-cadastro-perfil">
+    <v-app>
+        <v-dialog v-model="dialog" max-width="500px">
+            <template v-slot:activator="{ on, attrs }">
+             <v-btn
+              color="primary"
+              dark
+              v-bind="attrs"
+              v-on="on"
+            >
+                Cadastrar
+            </v-btn>
+        </template>
+            <v-card>
+                <v-card-title>
+                    <span class="headline">Cadastrar Perfil</span>
+                </v-card-title>
+
+                <v-card-text>
+                    <v-container>
+                        <v-form ref="form" v-model="valid" lazy-validation>
+                            <v-text-field v-model="model.perfil" :rules="requiredRule" label="Nome *" required>
+                            </v-text-field>
+
+                            <v-text-field v-model="model.nivelHierarquico" type="number" label="Nível Hierárquico *" :rules="requiredRule" required></v-text-field>
+
+                            <v-radio-group label="Status " v-model="model.status" row required>
+                                <v-radio :key="1" :label="`Ativo `" :value="1"></v-radio>
+                                <v-radio :key="0" :label="`Inativo `" :value="0"></v-radio>
+                            </v-radio-group>
+
+                            <v-radio-group label="Tipo *" v-model="model.tipoPerfil" row required :rules="requiredRule">
+                                <v-radio v-for="n in tipos" :key="n.idTipoPerfil" :label="`${n.tipoPerfil}`" :value="n"></v-radio>
+                            </v-radio-group>
+
+                            <v-select v-model="model.telas" :items="telas" item-text="tela" return-object attach chips label="Telas" multiple>
+                            </v-select>
+                        </v-form>
+                    </v-container>
+                </v-card-text>
+
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="gray darken-1" text @click="dialog = false">
+                        Cancelar
+                    </v-btn>
+                    <v-btn color="blue darken-1" text @click="salvar">
+                        Save
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+    </v-app>
+</script>
+<script>
+    Vue.component('modal-cadastro-perfil', {
+        template: '#modal-cadastro-perfil',
+        data: function() {
+            return {
+                dialog: false,
+                model: {
+                    idPerfil: null,
+                    tipoPerfil: null,
+                    status: null,
+                    perfil: null,
+                    nivelHierarquico: null,
+                    dataRegistro: null,
+                    telas: null,
+                },
+                valid: true,
+                requiredRule: [
+                    (v) => !!v || "Campo obrigatório",
+                    // (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+                ],
+                telas: [],
+                tipos: [],
+            };
+        },
+        watch: {},
+        mounted() {
+            this.getTelas();
+            this.getTipos();
+        },
+        methods: {
+            getTipos: function() {
+                axios.get("/tipoperfil/get").then((resp) => {
+                    this.tipos = resp.data;
+                }).catch((error) => {
+                    console.log(error)
+                })
+            },
+            getTelas: function() {
+                axios.get("/tela/get").then((resp) => {
+                    this.telas = resp.data;
+                }).catch((error) => {
+                    console.log(error)
+                })
+            },
+            salvar: function() {
+                if (this.$refs.form.validate()) {
+                    this.$refs.form.resetValidation();
+                    $.ajax({
+                        method: "POST",
+                        url: "/perfil/save",
+                        data: this.model,
+                        success: function(resp) {
+                            console.log(resp);
+                            this.dialog = false;
+                        },
+                        error: function(xhr) {
+                            // alert("Ops, algo deu errado: " + xhr.status + ", " + xhr.statusText);
+                        }
+                    })
+                }
+            },
+        }
+    });
+</script>
+<style>
+    .v-application--wrap {
+        min-height: auto !important;
+        display: flex !important;
+        align-items: right !important;
+    }
+</style>
