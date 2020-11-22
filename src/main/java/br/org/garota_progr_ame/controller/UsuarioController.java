@@ -8,11 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.org.garota_progr_ame.dto.PerfilDto;
-import br.org.garota_progr_ame.dto.PerfilRespostaDto;
-import br.org.garota_progr_ame.domain.PerfilDomain;
-import br.org.garota_progr_ame.services.PerfilService;
-import br.org.garota_progr_ame.services.PerfilTelaService;
+import br.org.garota_progr_ame.model.UsuarioModel;
+import br.org.garota_progr_ame.services.UsuarioService;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -23,26 +20,24 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 @RestController
-@RequestMapping("/perfil")
-public class PerfilController {
+@RequestMapping("/usuario")
+public class UsuarioController {
 
-    private final PerfilService service;
-    private final PerfilTelaService servicePerfilTela;
+    private final UsuarioService service;
 
     @PersistenceContext
     private EntityManager em;
 
     @Autowired
-    public PerfilController(PerfilService s, PerfilTelaService st) {
+    public UsuarioController(UsuarioService s) {
         this.service = s;
-        this.servicePerfilTela = st;
     }
 
     @GetMapping(value = "/get")
-    public ResponseEntity<List<PerfilDomain>> listar() {
+    public ResponseEntity<List<UsuarioModel>> listar() {
         try {
-            List<PerfilDomain> perfis = service.listar();
-            return new ResponseEntity<List<PerfilDomain>>(perfis, HttpStatus.ACCEPTED);
+            List<UsuarioModel> usuarios = this.service.listar();
+            return new ResponseEntity<List<UsuarioModel>>(usuarios, HttpStatus.ACCEPTED);
             
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
@@ -51,20 +46,16 @@ public class PerfilController {
     
     @Transactional
     @PostMapping(value = "/save")
-    public ResponseEntity<PerfilRespostaDto> salvar(PerfilDto dto) {
+    public ResponseEntity<UsuarioModel> salvar(UsuarioModel u) {
 
         try {
             Calendar calendar = Calendar.getInstance();
             Timestamp currentTimestamp = new java.sql.Timestamp(calendar.getTime().getTime());
-            dto.setDataRegistro(currentTimestamp);
-            
-            PerfilDomain _perfil = dto.toObj();
-            service.salvar(_perfil);
-            servicePerfilTela.inserePerfilTela(_perfil, dto.getTelas());
+            u.setDataRegistro(currentTimestamp);
 
-            PerfilRespostaDto _resp = PerfilRespostaDto.toRespostaDto(_perfil);
+            UsuarioModel _resp = service.salvar(u);
     
-            return new ResponseEntity<PerfilRespostaDto>(_resp, HttpStatus.CREATED);
+            return new ResponseEntity<UsuarioModel>(_resp, HttpStatus.CREATED);
 
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);

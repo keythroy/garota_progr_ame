@@ -13,4 +13,9 @@ public class HomeController {
 		
 	}
 
+	@GetMapping("/usuarios")
+	public String usuarios() {
+		return "Usuario/index";
+
+	}
 }
