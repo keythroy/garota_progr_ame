@@ -5,9 +5,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class SiteController {
-    	
+
 	@GetMapping("/site")
 	public String init() {
-		return "Site/index";		
+		return "Site/index";
 	}
+
+	@GetMapping("/cadastro")
+	public String cadastro() {
+		return "Site/cadastro";
+	}
+
 }

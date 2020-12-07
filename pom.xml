@@ -11,8 +11,8 @@
 	<groupId>br.org</groupId>
 	<artifactId>garota_progra_me</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>GarotaProgra(ame)</name>
-	<description>Comitê de Mulheres da TI da Universidade Católica de Brasília</description>
+	<name>@ garota_progr_ame ></name>
+	<description>Universidade Católica de Brasília</description>
 
 	<properties>
 		<java.version>11</java.version>
@@ -56,6 +56,23 @@
 			<scope>runtime</scope>
 		</dependency>
 	
+		
+        <!-- for web servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Some containers like Tomcat don't have jstl library -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+            <scope>provided</scope>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
