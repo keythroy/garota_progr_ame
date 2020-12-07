@@ -27,8 +27,7 @@
                 id="navcol-1">
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link" href="index.jsp">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="ImoveisServlet">=</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="Equipe.jsp">Cadastro</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="cadastro.jsp">Cadastro</a></li>
                 </ul>
             </div>
         </div>

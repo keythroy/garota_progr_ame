@@ -27,11 +27,7 @@
                 class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link active" href="index.jsp">Home</a></li>
-                    
-                    <li class="nav-item"><a class="nav-link" href="ImoveisServlet">=</a></li>
-                   
-                   
-                    <li class="nav-item"><a class="nav-link" href="Equipe.jsp">Cadastre-se</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cadastro.jsp">Cadastre-se</a></li>
                 </ul>
         	</div>
         </div>
